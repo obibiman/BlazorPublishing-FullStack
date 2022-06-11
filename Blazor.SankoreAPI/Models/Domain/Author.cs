@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Blazor.SankoreAPI.Models
+namespace Blazor.SankoreAPI.Models.Domain
 {
     public partial class Author
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Blazor.SankoreAPI.Models;
+using Blazor.SankoreAPI.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
