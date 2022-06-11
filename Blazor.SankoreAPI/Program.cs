@@ -1,3 +1,7 @@
+using Blazor.SankoreAPI.Database;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +16,13 @@ builder.Services.AddSwaggerGen();
 //add serilog
 builder.Host.UseSerilog((contxt,loggingConfig)=>loggingConfig.WriteTo.Console().ReadFrom.Configuration(contxt.Configuration));
 
-builder.Services.AddCors(options => { options.AddPolicy("AllowAll", 
-    y => y.AllowAnyMethod()
-    .AllowAnyHeader()
+builder.Services.AddCors(options => { options.AddPolicy("AllowAll",
+y => y.AllowAnyMethod()
+.AllowAnyHeader()
     .AllowAnyOrigin()); });
+
+var connString =  builder.Configuration.GetConnectionString("BookRepoDb");
+builder.Services.AddDbContext<BookRepoContext>(options => options.UseSqlServer(connString));
 
 var app = builder.Build();
 

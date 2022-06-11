@@ -1,0 +1,5 @@
+﻿command for doing scaffold-dbcontext.  This is to separate the model and context directories
+https://stackoverflow.com/questions/48282223/scaffold-dbcontext-to-different-output-folder
+Scaffold-DbContext "*connection*" "*provider*" -OutputDir "BackendProject" -ContextDir "DbContexts"
+
+
