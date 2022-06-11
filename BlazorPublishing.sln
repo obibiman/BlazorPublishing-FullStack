@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.SankoreAPI", "Blazor.SankoreAPI\Blazor.SankoreAPI.csproj", "{537EC1E8-91EC-4DF7-930E-B7DB2111225F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {794F3CDB-0E64-4530-9EF3-62DAC6D4F2D6}
+	EndGlobalSection
+EndGlobal
