@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Blazor.SankoreAPI.Models.DataTransfer;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace Blazor.SankoreAPI.Models.Domain
@@ -16,5 +18,10 @@ namespace Blazor.SankoreAPI.Models.Domain
         public string? Bio { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }
+
+        public static implicit operator Author(ActionResult<IEnumerable<AuthorReadOnlyDto>> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

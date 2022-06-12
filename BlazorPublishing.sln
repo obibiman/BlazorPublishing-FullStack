@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.SankoreAPI", "Blazor.SankoreAPI\Blazor.SankoreAPI.csproj", "{537EC1E8-91EC-4DF7-930E-B7DB2111225F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.SankoreAPI", "Blazor.SankoreAPI\Blazor.SankoreAPI.csproj", "{537EC1E8-91EC-4DF7-930E-B7DB2111225F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.SankoreAPI.Tests", "Blazor.SankoreAPI.Tests\Blazor.SankoreAPI.Tests.csproj", "{3BE518FF-EE1A-4F08-BC3B-20EB67D99190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537EC1E8-91EC-4DF7-930E-B7DB2111225F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BE518FF-EE1A-4F08-BC3B-20EB67D99190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE518FF-EE1A-4F08-BC3B-20EB67D99190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE518FF-EE1A-4F08-BC3B-20EB67D99190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE518FF-EE1A-4F08-BC3B-20EB67D99190}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
