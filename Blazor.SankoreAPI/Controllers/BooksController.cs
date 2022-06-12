@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Blazor.SankoreAPI.Database;
 using Blazor.SankoreAPI.Models.Domain;
+using AutoMapper;
+using Blazor.SankoreAPI.Models.DataTransfer.Book;
+using AutoMapper.QueryableExtensions;
 
 namespace Blazor.SankoreAPI.Controllers
 {
@@ -15,23 +18,37 @@ namespace Blazor.SankoreAPI.Controllers
     public class BooksController : ControllerBase
     {
         private readonly BookRepoContext _context;
+        private readonly IMapper _mapper;
+        private readonly ILogger<BooksController> _logger;
 
-        public BooksController(BookRepoContext context)
+        public BooksController(BookRepoContext context, IMapper mapper, ILogger<BooksController> logger)
         {
             _context = context;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookReadOnlyDto>>> GetBooks()
         {
-          if (_context.Books == null)
-          {
-              return NotFound();
-          }
-            return await _context.Books.ToListAsync();
+            var books = await _context.Books.Include(y => y.Author)
+                .ProjectTo<BookReadOnlyDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return Ok(books);
         }
 
+        // GET: api/Books
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<BookReadOnlyDto>>> GetBooksAnotherWay()
+        //{
+        //    var books = await _context.Books.Include(y => y.Author).ToListAsync();
+        //    var booksReadOnlyDto = _mapper.Map<IEnumerable<BookReadOnlyDto>>(books);
+
+
+        //    return Ok(booksReadOnlyDto);
+        //}
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)

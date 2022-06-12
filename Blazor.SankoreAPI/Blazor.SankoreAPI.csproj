@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\DataTransfer\Author\" />
     <Folder Include="NewFolder\" />
   </ItemGroup>
 
