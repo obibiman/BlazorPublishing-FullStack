@@ -1,4 +1,4 @@
-﻿using Blazor.SankoreAPI.Models.DataTransfer;
+﻿using Blazor.SankoreAPI.Models.DataTransfer.Author;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

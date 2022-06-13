@@ -1,8 +1,6 @@
-﻿using Blazor.SankoreAPI.Models.Domain;
-
-namespace Blazor.SankoreAPI.Models.DataTransfer.Book
+﻿namespace Blazor.SankoreAPI.Models.DataTransfer.Book
 {
-    public class BookReadOnlyDto : BaseDto
+    public class BookCreateDto
     {
         public string Title { get; set; }
         public string Image { get; set; }

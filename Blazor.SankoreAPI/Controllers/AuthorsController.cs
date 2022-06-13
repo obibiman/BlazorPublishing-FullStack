@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Blazor.SankoreAPI.Database;
 using Blazor.SankoreAPI.Models.Domain;
-using Blazor.SankoreAPI.Models.DataTransfer;
 using AutoMapper;
 using Blazor.SankoreAPI.Static;
+using Blazor.SankoreAPI.Models.DataTransfer.Author;
 
 namespace Blazor.SankoreAPI.Controllers
 {

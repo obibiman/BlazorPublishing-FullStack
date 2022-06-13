@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blazor.SankoreAPI.Models.DataTransfer
+namespace Blazor.SankoreAPI.Models.DataTransfer.Author
 {
     public class AuthorCreateDto
     {

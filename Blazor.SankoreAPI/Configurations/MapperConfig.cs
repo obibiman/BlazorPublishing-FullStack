@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Blazor.SankoreAPI.Models.DataTransfer;
+using Blazor.SankoreAPI.Models.DataTransfer.Author;
 using Blazor.SankoreAPI.Models.DataTransfer.Book;
 using Blazor.SankoreAPI.Models.Domain;
 
@@ -17,6 +17,8 @@ namespace Blazor.SankoreAPI.Configurations
             CreateMap<Book, BookReadOnlyDto>()
                 .ForMember(z=>z.AuthorName, y=>y.MapFrom(m=>$"{m.Author.FirstName} {m.Author.LastName}"))
                 .ReverseMap();
+            CreateMap<BookUpdateDto, Book>().ReverseMap();
+            CreateMap<BookCreateDto, Book>().ReverseMap();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blazor.SankoreAPI.Models.DataTransfer
+namespace Blazor.SankoreAPI.Models.DataTransfer.Author
 {
-    public class AuthorUpdateDto : BaseDto
+    public class AuthorReadOnlyDto : BaseDto
     {
         [Required, StringLength(50)]
         public string FirstName { get; set; }
