@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blazor.SankoreAPI.Models.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Blazor.SankoreAPI.Database
 {
-    public partial class BookRepoContext : DbContext
+    public partial class BookRepoContext : IdentityDbContext<ApiUser>
     {
         public BookRepoContext()
         {
@@ -31,6 +32,7 @@ namespace Blazor.SankoreAPI.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Author>(entity =>
             {
                 entity.Property(e => e.Bio).HasMaxLength(250);

@@ -1,9 +1,9 @@
 using Blazor.SankoreAPI.Configurations;
 using Blazor.SankoreAPI.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
+using Blazor.SankoreAPI.Models.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,13 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 var connString =  builder.Configuration.GetConnectionString("BookRepoDb");
 builder.Services.AddDbContext<BookRepoContext>(options => options.UseSqlServer(connString));
+
+
+//add identity
+builder.Services.AddIdentityCore<ApiUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<BookRepoContext>();
+
 
 var app = builder.Build();
 
