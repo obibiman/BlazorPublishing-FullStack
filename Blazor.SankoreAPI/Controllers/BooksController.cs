@@ -51,37 +51,9 @@ namespace Blazor.SankoreAPI.Controllers
             }
         }
 
-        //original way of doing this
-        // GET: api/Books
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<BookReadOnlyDto>>> GetBooksAnotherWay()
-        //{
-        //    var books = await _context.Books.Include(y => y.Author).ToListAsync();
-        //    var booksReadOnlyDto = _mapper.Map<IEnumerable<BookReadOnlyDto>>(books);
-        //    return Ok(booksReadOnlyDto);
-        //}
-
-        //original way of doing this
-        // GET: api/Books/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Book>> GetBook(int id)
-        //{
-        //    if (_context.Books == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var book = await _context.Books.FindAsync(id);
-
-        //    if (book == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return book;
-        //}
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookReadOnlyDto>> GetBook(int id)
+        public async Task<ActionResult<BookDetailsDto>> GetBook(int id)
         {
             try
             {
@@ -90,10 +62,21 @@ namespace Blazor.SankoreAPI.Controllers
                     _logger.LogWarning($"No {nameof(Book)} record was returned for request for Id: {id} in {nameof(GetBook)}");
                     return NotFound();
                 }
-                var book = await _context.Books.Include(y => y.Author).Where(x => x.Id == id).SingleOrDefaultAsync();
-                var bookReadOnlyDto = _mapper.Map<BookReadOnlyDto>(book);
+                var myBook = await _context.Books
+                    .Include(y => y.Author)
+                    .ProjectTo<BookDetailsDto>(_mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(q => q.Id == id);
 
-                return Ok(bookReadOnlyDto);
+                if (myBook==null)
+                {
+                    _logger.LogWarning($"No {nameof(Book)} record was returned for request for Id: {id} in {nameof(GetBook)}");
+                    return NotFound();
+                }
+                ////var book = await _context.Books.Include(y => y.Author).Where(x => x.Id == id).SingleOrDefaultAsync();
+                ////var bookReadOnlyDto = _mapper.Map<BookDetailsDto>(book);
+
+                _logger.LogInformation($"Request for {nameof(Book)} Id: {id} with GET operation call to {nameof(GetBook)}");
+                return Ok(myBook);
             }
             catch (Exception exep)
             {
