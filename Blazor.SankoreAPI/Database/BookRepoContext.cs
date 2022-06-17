@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Blazor.SankoreAPI.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -21,14 +22,14 @@ namespace Blazor.SankoreAPI.Database
         public virtual DbSet<Author> Authors { get; set; } = null!;
         public virtual DbSet<Book> Books { get; set; } = null!;
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Server=MAURICE-OPTIPLE;Database=BookRepo;Integrated Security=true;MultipleActiveResultSets=true");
-//            }
-//        }
+        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //        {
+        //            if (!optionsBuilder.IsConfigured)
+        //            {
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //                optionsBuilder.UseSqlServer("Server=MAURICE-OPTIPLE;Database=BookRepo;Integrated Security=true;MultipleActiveResultSets=true");
+        //            }
+        //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,6 +69,61 @@ namespace Blazor.SankoreAPI.Database
                     .HasForeignKey(d => d.AuthorId)
                     .HasConstraintName("FK_Books_ToTable");
             });
+            modelBuilder.Entity<IdentityRole>().HasData
+                (
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER",
+                    Id = "1aa58b46-8208-479f-a26e-5b78035c280f"
+                },
+                 new IdentityRole
+                 {
+                     Name = "Administrator",
+                     NormalizedName = "ADMINISTRATOR",
+                     Id = "4f7af9a4-5221-422c-a10f-0817e81b84a5"
+                 }
+                );
+            var hasher = new PasswordHasher<ApiUser>();
+            modelBuilder.Entity<ApiUser>().HasData
+                (
+               new ApiUser
+               {
+                   Id = "3a4d344e-158e-46b2-baad-4890f2d26fd1",
+                   Email = "admin@sankorebookstore.com",
+                   NormalizedEmail = "ADMIN@SANKOREBOOKSTORE.COM",
+                   UserName = "admin@sankorebookstore.com",
+                   NormalizedUserName = "ADMIN@SANKOREBOOKSTORE.COM",
+                   FirstName = "System",
+                   LastName = "Admin",
+                   PasswordHash = hasher.HashPassword(null, "P@ssword1")
+               },
+                new ApiUser
+                {
+                    Id = "c487f4ae-ca04-40ea-a4ec-c241179cdac4",
+                    Email = "user@sankorebookstore.com",
+                    NormalizedEmail = "USER@SANKOREBOOKSTORE.COM",
+                    UserName = "user@sankorebookstore.com",
+                    NormalizedUserName = "USER@SANKOREBOOKSTORE.COM",
+                    FirstName = "System",
+                    LastName = "User",
+                    PasswordHash = hasher.HashPassword(null, "P@ssword1")
+                }
+               );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData
+                (
+              new IdentityUserRole<string>
+              {
+                  RoleId = "1aa58b46-8208-479f-a26e-5b78035c280f",
+                  UserId = "3a4d344e-158e-46b2-baad-4890f2d26fd1"
+              },
+              new IdentityUserRole<string>
+              {
+                  RoleId = "4f7af9a4-5221-422c-a10f-0817e81b84a5",
+                  UserId = "c487f4ae-ca04-40ea-a4ec-c241179cdac4"
+              }
+              );
 
             OnModelCreatingPartial(modelBuilder);
         }
