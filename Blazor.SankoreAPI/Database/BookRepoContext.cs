@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Blazor.SankoreAPI.Models.Domain;
+﻿using Blazor.SankoreAPI.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Blazor.SankoreAPI.Database
 {
@@ -34,42 +31,42 @@ namespace Blazor.SankoreAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Author>(entity =>
+            _ = modelBuilder.Entity<Author>(entity =>
             {
-                entity.Property(e => e.Bio).HasMaxLength(250);
+                _ = entity.Property(e => e.Bio).HasMaxLength(250);
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                _ = entity.Property(e => e.FirstName).HasMaxLength(50);
 
-                entity.Property(e => e.LastName).HasMaxLength(50);
+                _ = entity.Property(e => e.LastName).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Book>(entity =>
+            _ = modelBuilder.Entity<Book>(entity =>
             {
-                entity.HasIndex(e => e.Isbn, "UQ_Books_ISBN")
+                _ = entity.HasIndex(e => e.Isbn, "UQ_Books_ISBN")
                     .IsUnique();
 
-                entity.Property(e => e.Image).HasMaxLength(50);
+                _ = entity.Property(e => e.Image).HasMaxLength(50);
 
-                entity.Property(e => e.Isbn)
+                _ = entity.Property(e => e.Isbn)
                     .HasMaxLength(50)
                     .HasColumnName("ISBN");
 
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+                _ = entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.Summary).HasMaxLength(50);
+                _ = entity.Property(e => e.Summary).HasMaxLength(50);
 
-                entity.Property(e => e.Title).HasMaxLength(50);
+                _ = entity.Property(e => e.Title).HasMaxLength(50);
 
-                entity.Property(e => e.Year)
+                _ = entity.Property(e => e.Year)
                     .HasMaxLength(10)
                     .IsFixedLength();
 
-                entity.HasOne(d => d.Author)
+                _ = entity.HasOne(d => d.Author)
                     .WithMany(p => p.Books)
                     .HasForeignKey(d => d.AuthorId)
                     .HasConstraintName("FK_Books_ToTable");
             });
-            modelBuilder.Entity<IdentityRole>().HasData
+            _ = modelBuilder.Entity<IdentityRole>().HasData
                 (
                 new IdentityRole
                 {
@@ -84,8 +81,8 @@ namespace Blazor.SankoreAPI.Database
                      Id = "4f7af9a4-5221-422c-a10f-0817e81b84a5"
                  }
                 );
-            var hasher = new PasswordHasher<ApiUser>();
-            modelBuilder.Entity<ApiUser>().HasData
+            PasswordHasher<ApiUser>? hasher = new PasswordHasher<ApiUser>();
+            _ = modelBuilder.Entity<ApiUser>().HasData
                 (
                new ApiUser
                {
@@ -111,7 +108,7 @@ namespace Blazor.SankoreAPI.Database
                 }
                );
 
-            modelBuilder.Entity<IdentityUserRole<string>>().HasData
+            _ = modelBuilder.Entity<IdentityUserRole<string>>().HasData
                 (
               new IdentityUserRole<string>
               {

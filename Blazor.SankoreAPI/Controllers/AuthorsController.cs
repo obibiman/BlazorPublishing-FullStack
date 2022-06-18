@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Blazor.SankoreAPI.Database;
+using Blazor.SankoreAPI.Models.DataTransfer.Author;
+using Blazor.SankoreAPI.Models.Domain;
+using Blazor.SankoreAPI.Static;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Blazor.SankoreAPI.Database;
-using Blazor.SankoreAPI.Models.Domain;
-using AutoMapper;
-using Blazor.SankoreAPI.Static;
-using Blazor.SankoreAPI.Models.DataTransfer.Author;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
 namespace Blazor.SankoreAPI.Controllers
 {
@@ -38,20 +32,20 @@ namespace Blazor.SankoreAPI.Controllers
             _logger.LogInformation($"making request call to {nameof(GetAuthors)}");
             try
             {
-                
+
                 if (_context.Authors == null)
                 {
                     _logger.LogWarning($"Records not found for GET operation in {nameof(GetAuthors)}");
                     return NotFound();
                 }
-                var authors = _mapper.Map<IEnumerable<AuthorReadOnlyDto>>(await _context.Authors.ToListAsync());
+                IEnumerable<AuthorReadOnlyDto>? authors = _mapper.Map<IEnumerable<AuthorReadOnlyDto>>(await _context.Authors.ToListAsync());
                 return Ok(authors);
             }
-            catch(Exception exep)
+            catch (Exception exep)
             {
                 _logger.LogError(exep, $"Error performing GET operation in {nameof(GetAuthors)}");
                 return StatusCode(500, Messages.Error500Mesage);
-            }         
+            }
         }
 
         // GET: api/Authors/5
@@ -60,30 +54,31 @@ namespace Blazor.SankoreAPI.Controllers
         {
             try
             {
-                var author = await _context.Authors.FindAsync(id);
+                Author? author = await _context.Authors.FindAsync(id);
                 if (author == null)
                 {
                     _logger.LogWarning($"{nameof(Author)} record not found in {nameof(GetAuthor)} - Id {id}");
                     return NotFound();
-                }             
+                }
 
-                var authorReadOnlyDto = _mapper.Map<AuthorReadOnlyDto>(author);            
+                AuthorReadOnlyDto? authorReadOnlyDto = _mapper.Map<AuthorReadOnlyDto>(author);
 
                 return authorReadOnlyDto;
             }
-            catch(Exception exep)
+            catch (Exception exep)
             {
                 _logger.LogError(exep, $"Error performing GET operation in {nameof(GetAuthor)}");
                 return BadRequest();
             }
         }
 
-// PUT: api/Authors/5
-// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator")]
+        // PUT: api/Authors/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> PutAuthor(int id, AuthorUpdateDto authorUpdateDto)
-        {      
+        {
             try
             {
                 if (id != authorUpdateDto.Id)
@@ -92,21 +87,21 @@ namespace Blazor.SankoreAPI.Controllers
                     return BadRequest();
                 }
 
-                var author = await _context.Authors.FindAsync(id);
+                Author? author = await _context.Authors.FindAsync(id);
                 if (author == null)
                 {
                     _logger.LogWarning($"{nameof(Author)} record not found in {nameof(PutAuthor)} - Id {id}");
                     return BadRequest();
                 }
 
-                _mapper.Map(authorUpdateDto, author);
+                _ = _mapper.Map(authorUpdateDto, author);
 
                 _context.Entry(author).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException exep)
             {
-                if (! await AuthorExists(id))
+                if (!await AuthorExists(id))
                 {
                     _logger.LogError(exep, $"{nameof(Author)} record not found in {nameof(PutAuthor)} for ID - {id}");
                     return NotFound();
@@ -121,25 +116,26 @@ namespace Blazor.SankoreAPI.Controllers
 
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize(Roles = "Administrator")]
+
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<AuthorCreateDto>> PostAuthor(AuthorCreateDto authorCreateDto)
         {
             try
             {
-                var author = _mapper.Map<Author>(authorCreateDto);
+                Author? author = _mapper.Map<Author>(authorCreateDto);
 
                 if (author == null)
                 {
                     _logger.LogWarning($"{nameof(Author)} record not found in {nameof(PostAuthor)}");
                     return BadRequest();
                 }
-                await _context.Authors.AddAsync(author);
-                await _context.SaveChangesAsync();
+                _ = await _context.Authors.AddAsync(author);
+                _ = await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetAuthor), new { id = author.Id }, author);
             }
-            catch(Exception exep)
+            catch (Exception exep)
             {
                 _logger.LogError(exep, $"Error performing POST operation in {nameof(PostAuthor)}");
                 return BadRequest();
@@ -147,20 +143,21 @@ namespace Blazor.SankoreAPI.Controllers
         }
 
         // DELETE: api/Authors/5
-        [Authorize(Roles = "Administrator")]
+
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
             try
             {
-                var author = await _context.Authors.FindAsync(id);
+                Author? author = await _context.Authors.FindAsync(id);
                 if (author == null)
                 {
                     _logger.LogWarning($"{nameof(Author)} record not found in {nameof(DeleteAuthor)} - Id {id}");
                     return NotFound();
                 }
-                _context.Authors.Remove(author);
-                await _context.SaveChangesAsync();
+                _ = _context.Authors.Remove(author);
+                _ = await _context.SaveChangesAsync();
 
                 return NoContent();
             }

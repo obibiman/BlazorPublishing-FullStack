@@ -8,7 +8,7 @@ namespace Blazor.SankoreAPI.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.InsertData(
+            _ = migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
@@ -17,7 +17,7 @@ namespace Blazor.SankoreAPI.Migrations
                     { "4f7af9a4-5221-422c-a10f-0817e81b84a5", "3aae8d43-6e26-4998-a2c2-034bcbf655c9", "Administrator", "ADMINISTRATOR" }
                 });
 
-            migrationBuilder.InsertData(
+            _ = migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
@@ -26,12 +26,12 @@ namespace Blazor.SankoreAPI.Migrations
                     { "c487f4ae-ca04-40ea-a4ec-c241179cdac4", 0, "18e21362-c90a-4de5-b9b3-3a7a476af0a5", "user@sankorebookstore.com", false, "System", "User", false, null, "USER@SANKOREBOOKSTORE.COM", "USER@SANKOREBOOKSTORE.COM", "AQAAAAEAACcQAAAAEFsB+xGHXzM1GHYp8xtRcrOG2r3DC9jVgnvxLkoeHogJ0Fdiq8NURRu9BistYFaYCw==", null, false, "f59c891f-3114-4221-8dd3-f0ed7b25d579", false, "user@sankorebookstore.com" }
                 });
 
-            migrationBuilder.InsertData(
+            _ = migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "1aa58b46-8208-479f-a26e-5b78035c280f", "3a4d344e-158e-46b2-baad-4890f2d26fd1" });
 
-            migrationBuilder.InsertData(
+            _ = migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "4f7af9a4-5221-422c-a10f-0817e81b84a5", "c487f4ae-ca04-40ea-a4ec-c241179cdac4" });
@@ -39,32 +39,32 @@ namespace Blazor.SankoreAPI.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
                 keyValues: new object[] { "1aa58b46-8208-479f-a26e-5b78035c280f", "3a4d344e-158e-46b2-baad-4890f2d26fd1" });
 
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
                 keyValues: new object[] { "4f7af9a4-5221-422c-a10f-0817e81b84a5", "c487f4ae-ca04-40ea-a4ec-c241179cdac4" });
 
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "1aa58b46-8208-479f-a26e-5b78035c280f");
 
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "4f7af9a4-5221-422c-a10f-0817e81b84a5");
 
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "3a4d344e-158e-46b2-baad-4890f2d26fd1");
 
-            migrationBuilder.DeleteData(
+            _ = migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "c487f4ae-ca04-40ea-a4ec-c241179cdac4");

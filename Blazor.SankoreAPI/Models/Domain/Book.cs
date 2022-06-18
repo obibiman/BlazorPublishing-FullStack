@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Blazor.SankoreAPI.Models.Domain
+﻿namespace Blazor.SankoreAPI.Models.Domain
 {
     public partial class Book
     {

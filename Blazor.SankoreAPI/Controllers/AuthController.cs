@@ -4,7 +4,6 @@ using Blazor.SankoreAPI.Models.DataTransfer.User;
 using Blazor.SankoreAPI.Models.Domain;
 using Blazor.SankoreAPI.Static;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -40,20 +39,20 @@ namespace Blazor.SankoreAPI.Controllers
 
             try
             {
-                var user = _mapper.Map<ApiUser>(userDto);
+                ApiUser? user = _mapper.Map<ApiUser>(userDto);
                 user.UserName = userDto.Email;
-                var result = await _userManager.CreateAsync(user, userDto.Password);
+                IdentityResult? result = await _userManager.CreateAsync(user, userDto.Password);
 
                 if (!result.Succeeded)
                 {
-                    foreach (var error in result.Errors)
+                    foreach (IdentityError? error in result.Errors)
                     {
                         _logger.LogWarning($"Encountered {error.Description} when attempting to create user {userDto.Email} in {nameof(Register)}");
                         ModelState.AddModelError(error.Code, error.Description);
                     }
                     return BadRequest(ModelState);
                 }
-                await _userManager.AddToRoleAsync(user, "User");
+                _ = await _userManager.AddToRoleAsync(user, "User");
                 _logger.LogInformation($"Successfully called {nameof(Register)} and created new user {userDto.Email} for {userDto.FirstName} {userDto.LastName}");
                 return Accepted();
             }
@@ -71,8 +70,8 @@ namespace Blazor.SankoreAPI.Controllers
             _logger.LogInformation($"Making request create user whose username is {loginUserDto.Email} in {nameof(Login)}");
             try
             {
-                var user = await _userManager.FindByEmailAsync(loginUserDto.Email);
-                var passwordIsValid = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
+                ApiUser? user = await _userManager.FindByEmailAsync(loginUserDto.Email);
+                bool passwordIsValid = await _userManager.CheckPasswordAsync(user, loginUserDto.Password);
                 if (user == null || passwordIsValid == false)
                 {
                     _logger.LogWarning($"The user {loginUserDto.Email} and or password was not found");
@@ -80,14 +79,15 @@ namespace Blazor.SankoreAPI.Controllers
                 }
                 string tokenString = await GenerateToken(user);
 
-                var response = new AuthResponse
+                AuthResponse? response = new AuthResponse
                 {
-                    UserId = user.Id,
                     Email = loginUserDto.Email,
-                    Token = tokenString
+                    Token = tokenString,
+                    UserId = user.Id
                 };
+
                 _logger.LogInformation($"Successfully called {nameof(Login)} method by username {loginUserDto.Email}");
-                return Accepted(response);
+                return response;
 
             }
             catch (Exception exep)
@@ -99,16 +99,16 @@ namespace Blazor.SankoreAPI.Controllers
 
         private async Task<string> GenerateToken(ApiUser user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            SymmetricSecurityKey? securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
+            SigningCredentials? credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var roles = await _userManager.GetRolesAsync(user);
-            var roleClaims = roles.Select(q => new Claim(ClaimTypes.Role, q)).ToList();
+            IList<string>? roles = await _userManager.GetRolesAsync(user);
+            List<Claim>? roleClaims = roles.Select(q => new Claim(ClaimTypes.Role, q)).ToList();
 
-            var userClaims = await _userManager.GetClaimsAsync(user);
+            IList<Claim>? userClaims = await _userManager.GetClaimsAsync(user);
 
             //add claims and role claims
-            var claims = new List<Claim>
+            IEnumerable<Claim>? claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -118,15 +118,14 @@ namespace Blazor.SankoreAPI.Controllers
             .Union(roleClaims)
             .Union(userClaims);
 
-            var token = new JwtSecurityToken(
+            JwtSecurityToken? token = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(Convert.ToInt32(_configuration["JwtSettings:Duration"])),
                 signingCredentials: credentials);
 
-            var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-            return tokenValue;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

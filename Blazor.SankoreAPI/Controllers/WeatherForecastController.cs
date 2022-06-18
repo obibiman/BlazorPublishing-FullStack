@@ -26,14 +26,14 @@ namespace Blazor.SankoreAPI.Controllers
             {
                 throw new NotImplementedException();
                 return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = Random.Shared.Next(-20, 55),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                })
             .ToArray();
             }
-            catch(Exception exep)
+            catch (Exception exep)
             {
                 _logger.LogError(exep, exep.Message);
                 throw;
@@ -41,7 +41,7 @@ namespace Blazor.SankoreAPI.Controllers
             finally
             {
                 _logger.LogInformation("This will always be called");
-            }         
+            }
         }
     }
 }

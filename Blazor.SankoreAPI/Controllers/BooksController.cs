@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Blazor.SankoreAPI.Database;
+using Blazor.SankoreAPI.Models.DataTransfer.Book;
+using Blazor.SankoreAPI.Models.Domain;
+using Blazor.SankoreAPI.Static;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Blazor.SankoreAPI.Database;
-using Blazor.SankoreAPI.Models.Domain;
-using AutoMapper;
-using Blazor.SankoreAPI.Models.DataTransfer.Book;
-using AutoMapper.QueryableExtensions;
-using Blazor.SankoreAPI.Static;
-using static System.Reflection.Metadata.BlobBuilder;
-using Blazor.SankoreAPI.Models.DataTransfer;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Blazor.SankoreAPI.Controllers
 {
@@ -40,7 +33,7 @@ namespace Blazor.SankoreAPI.Controllers
             try
             {
                 _logger.LogInformation($"making request call to {nameof(GetBooks)}");
-                var books = await _context.Books.Include(y => y.Author)
+                List<BookReadOnlyDto>? books = await _context.Books.Include(y => y.Author)
                     .ProjectTo<BookReadOnlyDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
@@ -64,12 +57,12 @@ namespace Blazor.SankoreAPI.Controllers
                     _logger.LogWarning($"No {nameof(Book)} record was returned for request for Id: {id} in {nameof(GetBook)}");
                     return NotFound();
                 }
-                var myBook = await _context.Books
+                BookDetailsDto? myBook = await _context.Books
                     .Include(y => y.Author)
                     .ProjectTo<BookDetailsDto>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(q => q.Id == id);
 
-                if (myBook==null)
+                if (myBook == null)
                 {
                     _logger.LogWarning($"No {nameof(Book)} record was returned for request for Id: {id} in {nameof(GetBook)}");
                     return NotFound();
@@ -89,7 +82,7 @@ namespace Blazor.SankoreAPI.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize( Roles="Administrator")]
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, BookUpdateDto bookUpdateDto)
         {
@@ -98,17 +91,17 @@ namespace Blazor.SankoreAPI.Controllers
                 _logger.LogWarning($"Update ID invalid in {nameof(PutBook)} - Id {id}");
                 return BadRequest();
             }
-            var book = await _context.Books.FindAsync(id);
+            Book? book = await _context.Books.FindAsync(id);
             if (book == null)
             {
                 _logger.LogWarning($"{nameof(Book)} record not found in {nameof(PutBook)} - Id {id}");
                 return BadRequest();
             }
-            _mapper.Map(bookUpdateDto, book);
+            _ = _mapper.Map(bookUpdateDto, book);
             _context.Entry(bookUpdateDto).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException exep)
             {
@@ -133,7 +126,7 @@ namespace Blazor.SankoreAPI.Controllers
         {
             try
             {
-                var book = _mapper.Map<Book>(bookCreateDto);
+                Book? book = _mapper.Map<Book>(bookCreateDto);
 
                 if (book == null)
                 {
@@ -141,8 +134,8 @@ namespace Blazor.SankoreAPI.Controllers
                     return BadRequest();
                 }
 
-                await _context.Books.AddAsync(book);
-                await _context.SaveChangesAsync();
+                _ = await _context.Books.AddAsync(book);
+                _ = await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
             }
@@ -158,7 +151,7 @@ namespace Blazor.SankoreAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {
-       try
+            try
             {
                 if (_context.Books == null)
                 {
@@ -166,15 +159,15 @@ namespace Blazor.SankoreAPI.Controllers
                     return NotFound();
                 }
 
-                var book = await _context.Books.FindAsync(id);
+                Book? book = await _context.Books.FindAsync(id);
                 if (book == null)
                 {
                     _logger.LogWarning($"{nameof(Book)} record for Id: {id} was not found");
                     return NotFound();
                 }
 
-                _context.Books.Remove(book);
-                await _context.SaveChangesAsync();
+                _ = _context.Books.Remove(book);
+                _ = await _context.SaveChangesAsync();
 
                 return NoContent();
             }
