@@ -10,11 +10,14 @@ using Blazor.SankoreAPI.Models.Domain;
 using AutoMapper;
 using Blazor.SankoreAPI.Static;
 using Blazor.SankoreAPI.Models.DataTransfer.Author;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Blazor.SankoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorsController : ControllerBase
     {
         private readonly BookRepoContext _context;
@@ -75,8 +78,9 @@ namespace Blazor.SankoreAPI.Controllers
             }
         }
 
-        // PUT: api/Authors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+// PUT: api/Authors/5
+// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAuthor(int id, AuthorUpdateDto authorUpdateDto)
         {      
@@ -117,6 +121,7 @@ namespace Blazor.SankoreAPI.Controllers
 
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<AuthorCreateDto>> PostAuthor(AuthorCreateDto authorCreateDto)
         {
@@ -142,6 +147,7 @@ namespace Blazor.SankoreAPI.Controllers
         }
 
         // DELETE: api/Authors/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {

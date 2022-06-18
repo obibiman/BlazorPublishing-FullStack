@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Blazor.SankoreAPI.Models.DataTransfer.Author;
 using Blazor.SankoreAPI.Models.DataTransfer.Book;
+using Blazor.SankoreAPI.Models.DataTransfer.User;
 using Blazor.SankoreAPI.Models.Domain;
 
 namespace Blazor.SankoreAPI.Configurations
@@ -24,6 +25,9 @@ namespace Blazor.SankoreAPI.Configurations
            .ReverseMap();
             CreateMap<BookUpdateDto, Book>().ReverseMap();
             CreateMap<BookCreateDto, Book>().ReverseMap();
+
+            //mapping for User
+            CreateMap<ApiUser, UserDto>().ReverseMap();
         }
     }
 }

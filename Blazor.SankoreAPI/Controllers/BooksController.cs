@@ -13,11 +13,13 @@ using AutoMapper.QueryableExtensions;
 using Blazor.SankoreAPI.Static;
 using static System.Reflection.Metadata.BlobBuilder;
 using Blazor.SankoreAPI.Models.DataTransfer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Blazor.SankoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly BookRepoContext _context;
@@ -87,6 +89,7 @@ namespace Blazor.SankoreAPI.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize( Roles="Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, BookUpdateDto bookUpdateDto)
         {
@@ -124,6 +127,7 @@ namespace Blazor.SankoreAPI.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<BookCreateDto>> PostBook(BookCreateDto bookCreateDto)
         {
@@ -150,6 +154,7 @@ namespace Blazor.SankoreAPI.Controllers
         }
 
         // DELETE: api/Books/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {
