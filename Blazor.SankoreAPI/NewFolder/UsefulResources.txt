@@ -1,0 +1,8 @@
+﻿Secret manager
+
+https://www.youtube.com/watch?v=TVF9o5qbrkI
+
+https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows
+
+
+https://blazor-university.com/
