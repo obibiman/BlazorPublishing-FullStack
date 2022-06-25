@@ -62,6 +62,7 @@ builder.Services.AddIdentityCore<ApiUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BookRepoContext>();
 
+builder.Services.AddControllers();  //this was apprently missed
 
 var app = builder.Build();
 
@@ -75,9 +76,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
-app.UseAuthorization();
-app.UseAuthentication();
 
+app.UseAuthentication(); //must come before authentication
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
