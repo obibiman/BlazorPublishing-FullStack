@@ -16,10 +16,5 @@ namespace Blazor.SankoreAPI.Models.Domain
         public string? Bio { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }
-
-        public static implicit operator Author(ActionResult<IEnumerable<AuthorReadOnlyDto>> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

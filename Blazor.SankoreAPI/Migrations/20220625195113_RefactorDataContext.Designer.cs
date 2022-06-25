@@ -4,6 +4,7 @@ using Blazor.SankoreAPI.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blazor.SankoreAPI.Migrations
 {
     [DbContext(typeof(BookRepoContext))]
-    partial class BookRepoContextModelSnapshot : ModelSnapshot
+    [Migration("20220625195113_RefactorDataContext")]
+    partial class RefactorDataContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

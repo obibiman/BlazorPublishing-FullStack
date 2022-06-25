@@ -11,10 +11,20 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//add connection string
+var connString = builder.Configuration.GetConnectionString("BookRepoDb");
+builder.Services.AddDbContext<BookRepoContext>(options => options.UseSqlServer(connString));
+
+
+//add identity
+builder.Services.AddIdentityCore<ApiUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<BookRepoContext>();
+
+//add automapper
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddControllers();
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -49,20 +59,6 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
         };
     });
-
-//add automapper
-builder.Services.AddAutoMapper(typeof(MapperConfig));
-
-var connString = builder.Configuration.GetConnectionString("BookRepoDb");
-builder.Services.AddDbContext<BookRepoContext>(options => options.UseSqlServer(connString));
-
-
-//add identity
-builder.Services.AddIdentityCore<ApiUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<BookRepoContext>();
-
-builder.Services.AddControllers();  //this was apprently missed
 
 var app = builder.Build();
 

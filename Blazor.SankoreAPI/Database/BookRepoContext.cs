@@ -72,13 +72,13 @@ namespace Blazor.SankoreAPI.Database
                 {
                     Name = "User",
                     NormalizedName = "USER",
-                    Id = "1aa58b46-8208-479f-a26e-5b78035c280f"
+                    Id = "cfe1e0ab-8511-4424-abdb-8ff82cf0c9f0"
                 },
                  new IdentityRole
                  {
                      Name = "Administrator",
                      NormalizedName = "ADMINISTRATOR",
-                     Id = "4f7af9a4-5221-422c-a10f-0817e81b84a5"
+                     Id = "a1590a1f-25bb-4846-ab4b-d3f7c0cbdef2"
                  }
                 );
             PasswordHasher<ApiUser>? hasher = new PasswordHasher<ApiUser>();
@@ -86,22 +86,22 @@ namespace Blazor.SankoreAPI.Database
                 (
                new ApiUser
                {
-                   Id = "3a4d344e-158e-46b2-baad-4890f2d26fd1",
-                   Email = "admin@sankorebookstore.com",
-                   NormalizedEmail = "ADMIN@SANKOREBOOKSTORE.COM",
-                   UserName = "admin@sankorebookstore.com",
-                   NormalizedUserName = "ADMIN@SANKOREBOOKSTORE.COM",
+                   Id = "df66f44f-f920-4592-9aed-ceab29956b39",
+                   Email = "admin@bookstore.com",
+                   NormalizedEmail = "ADMIN@BOOKSTORE.COM",
+                   UserName = "admin@bookstore.com",
+                   NormalizedUserName = "ADMIN@BOOKSTORE.COM",
                    FirstName = "System",
                    LastName = "Admin",
                    PasswordHash = hasher.HashPassword(null, "P@ssword1")
                },
                 new ApiUser
                 {
-                    Id = "c487f4ae-ca04-40ea-a4ec-c241179cdac4",
-                    Email = "user@sankorebookstore.com",
-                    NormalizedEmail = "USER@SANKOREBOOKSTORE.COM",
-                    UserName = "user@sankorebookstore.com",
-                    NormalizedUserName = "USER@SANKOREBOOKSTORE.COM",
+                    Id = "207384ff-8b8e-4dba-a68d-565cb63d40e5",
+                    Email = "user@bookstore.com",
+                    NormalizedEmail = "USER@BOOKSTORE.COM",
+                    UserName = "user@bookstore.com",
+                    NormalizedUserName = "USER@BOOKSTORE.COM",
                     FirstName = "System",
                     LastName = "User",
                     PasswordHash = hasher.HashPassword(null, "P@ssword1")
@@ -112,13 +112,13 @@ namespace Blazor.SankoreAPI.Database
                 (
               new IdentityUserRole<string>
               {
-                  RoleId = "1aa58b46-8208-479f-a26e-5b78035c280f",
-                  UserId = "3a4d344e-158e-46b2-baad-4890f2d26fd1"
+                  RoleId = "cfe1e0ab-8511-4424-abdb-8ff82cf0c9f0",
+                  UserId = "207384ff-8b8e-4dba-a68d-565cb63d40e5"
               },
               new IdentityUserRole<string>
               {
-                  RoleId = "4f7af9a4-5221-422c-a10f-0817e81b84a5",
-                  UserId = "c487f4ae-ca04-40ea-a4ec-c241179cdac4"
+                  RoleId = "a1590a1f-25bb-4846-ab4b-d3f7c0cbdef2",
+                  UserId = "df66f44f-f920-4592-9aed-ceab29956b39"
               }
               );
 
